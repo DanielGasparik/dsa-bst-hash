@@ -23,34 +23,48 @@ class AVLTree{
         return n==null?0:this.height(n.left)-this.height(n.right);
 
     }
-    insert(value){
-        const node = new AVLNode(value);
-        let root = this.base;
-        if(this.base == null){
-            this.base = node;
+    insertN(root,node){
+        if(root === null){
+            root = node; 
+        }
+        else if(node.value < root.value){
+            //klasicka rekurzia na najdenie mostleft wanted node kde mame insertnut nas node
+            root.left = this.insertN(root.left,node);
+            //balancing
+            if(this.balance(root)>1){
+                if(root.left !== null && node.value>root.left.value){
+                    root = rotationLeft(root);
+                }
+                else if(root.left != null && node.value<root.left.value){
+                    
+                }
+                //check for rotation
+            }
+            
             
         }
+        else if(node.value>root.value){
+            root.right = this.insertN(root.right,node);
+            if(this.balance(root)<-1){
+                //check for rotation
+            }
+        }
+        return root;
+    }
+    insert(value){
+        let node = new AVLNode(value);
+        let root = this.base;
+        if(this.base == null){
+            this.base = node;     
+        }
         else{
-            insertN(this.base,node);
+            this.insertN(this.base,node);
         }
           
                
 
     }
-    insertN(root,node){
-        if(root === null){
-            root = node;
-        }
-        else if(node.value < root.value){
-            root.left = insertN(root.left,node);
-            
-        }
-        else if(node.value>root.value){
-            
-            root.right = insertN(root.right,node);
-        }
-        return root;
-}
+    
     inorder(node){
         
         if(node!==null){
@@ -63,15 +77,27 @@ class AVLTree{
     getRoot(){
         return this.base;
     }
+    //rotate right
+    rotateLL(node){
+        
+        
+        /*
+        let a = node.right;
+        node.right = a.left;
+        a.left = node;
+         return a;*/
+    }
+    rotateRR(node){}
+    rotateLR(node){}
+    rotateRR(node){}
 
 
     
 }
 console.log("hello world");
 const tree = new AVLTree();
-tree.insert(10);
-tree.insert(20);
-tree.insert(12);
-tree.insert(40);
-tree.insert(12);
+for(let i = 0;i<50;i++){
+tree.insert(i);
+tree.insert(i+50);
+}
 tree.inorder(tree.base);
