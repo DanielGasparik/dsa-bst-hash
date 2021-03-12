@@ -1,6 +1,4 @@
-//swap
-let a,b;
-[a,b] = [b,a];
+
 class AVLNode{
     constructor(value){
         this.value = value;
@@ -15,39 +13,81 @@ class AVLTree{
         this.base = null;
     
     }
-    height(n){ 
+    getHeight(n){ 
         if(n==null){return -1;}
-        return Math.max(height(n.left),height(n.right))+1;
+        return Math.max(this.getHeight(n.left),this.getHeight(n.right))+1;
     }
     balance(n){
-        return n==null?0:this.height(n.left)-this.height(n.right);
+        if( n == null){return 0;}
+        return this.getHeight(n.left)-this.getHeight(n.right);
 
+    }
+    //rotate left
+    //the tree is right heavy
+    //RR
+    rotateRH(node){
+        let a = node.right;
+        node.right = a.left;
+        a.left = node;
+         return a;
+    }
+    //rotate right
+    //the tree is left heavy
+    //LL
+    rotateLH(node){
+        let a = node.left;
+        node.left = a.right;
+        a.right = node;
+
+        return a;
+
+    }
+
+    
+    rotateLR(node){
+        //perform left rotation on the left subtree
+        node.left = this.rotateRH(node.left);
+        //perform right rotation on the root subtree
+        return this.rotateLH(node);
+        
+    }
+
+    rotateRL(node){
+        //perform right rotation on the right subtree
+        node.right = this.rotateLH(node.right);
+        //perform left rotation on the root subtree
+        return this.rotateRH(node);
     }
     insertN(root,node){
         if(root === null){
-            root = node; 
+            root = node;
+             
         }
-        else if(node.value < root.value){
+        if(node.value < root.value){
             //klasicka rekurzia na najdenie mostleft wanted node kde mame insertnut nas node
             root.left = this.insertN(root.left,node);
-            //balancing
-            if(this.balance(root)>1){
-                if(root.left !== null && node.value>root.left.value){
-                    root = rotationLeft(root);
-                }
-                else if(root.left != null && node.value<root.left.value){
-                    
-                }
-                //check for rotation
-            }
             
             
         }
         else if(node.value>root.value){
             root.right = this.insertN(root.right,node);
-            if(this.balance(root)<-1){
-                //check for rotation
-            }
+            
+        }
+        else { return root;}
+        
+        root.height = this.getHeight(root);
+        let balance = this.balance(root);
+        if(balance>1&& node.value<root.left.value){
+             return this.rotateLH(root);
+        }
+        if(balance<-1&&node.value>root.right.value){
+            return this.rotateRH(root);
+        }
+        if(balance >1 && node.value>root.left.value){
+            return this.rotateLR(root);
+        }
+        if(balance <-1 && node.value<root.left.value){
+            return this.rotateRL(root);
         }
         return root;
     }
@@ -58,7 +98,7 @@ class AVLTree{
             this.base = node;     
         }
         else{
-            this.insertN(this.base,node);
+            this.insertN(root,node);
         }
           
                
@@ -77,27 +117,14 @@ class AVLTree{
     getRoot(){
         return this.base;
     }
-    //rotate right
-    rotateLL(node){
-        
-        
-        /*
-        let a = node.right;
-        node.right = a.left;
-        a.left = node;
-         return a;*/
-    }
-    rotateRR(node){}
-    rotateLR(node){}
-    rotateRR(node){}
+    
 
 
     
 }
 console.log("hello world");
 const tree = new AVLTree();
-for(let i = 0;i<50;i++){
-tree.insert(i);
-tree.insert(i+50);
-}
-tree.inorder(tree.base);
+tree.insert(3);
+tree.insert(2);
+tree.insert(1);
+console.log(tree.base);
