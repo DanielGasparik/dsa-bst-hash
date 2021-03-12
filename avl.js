@@ -1,12 +1,3 @@
-const max = (a,b) => {
-
-    if(a===b){
-        return a;
-    }
-        return (a>b)?a:b;
-
-}
-
 class Node{
     constructor(value){
         this.value = value;
@@ -15,14 +6,16 @@ class Node{
         this.height = 0;
     }
 }
+
+
 class Tree{
     constructor(value){
         this.base = null;
+    
     }
-    height(n){
-        let a;
-        n==null?a=0:a=n.height;
-        return a;
+    height(n){ 
+        if(n==null){return -1}
+        return Math.max(height(n.left),height(n.right))+1;
     }
     balanced(n){
         return n==null?0:this.height(n.left)-this.height(n.right);
@@ -30,8 +23,8 @@ class Tree{
     }
     insert(value){
         const node = new Node(value);
-        if(this.root == null){
-            this.root = node;
+        if(this.base == null){
+            this.base = node;
             return this;
         }        
 
