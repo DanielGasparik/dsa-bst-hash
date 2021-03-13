@@ -49,13 +49,13 @@ class AVLTree{
         root.balance = this.balance(root);
         console.log("balance "+root.balance);
           
-            if(root.balance>1){
+            if(root.balance>1&& node.value<root.left.value){
                 root =  this.rotateLH(root);
             }
-           // if(root.balance >1){
-           //     root =  this.rotateLR(root);
-           // }
-            if(root.balance<-1){
+           /* if(root.balance >1){
+                root =  this.rotateLR(root);
+            }*/
+            if(root.balance<-1 && node.value>root.right.value){
                 root = this.rotateRH(root);
             }
            /* if(root.balance <-1){
@@ -151,7 +151,9 @@ class AVLTree{
 }
 console.log("hello world");
 const tree = new AVLTree();
+tree.insert(1);
 tree.insert(2);
 tree.insert(3);
 tree.insert(4);
+console.log(tree.base);
 tree.inorder(tree.base);
