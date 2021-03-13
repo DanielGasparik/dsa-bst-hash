@@ -50,17 +50,19 @@ class AVLTree{
         console.log("balance "+root.balance);
           
             if(root.balance>1&& node.value<root.left.value){
+                //perform rotation to the right
                 root =  this.rotateLH(root);
             }
-           /* if(root.balance >1){
+            if(root.balance >1 && node.value >root.left.value){
                 root =  this.rotateLR(root);
-            }*/
+            }
             if(root.balance<-1 && node.value>root.right.value){
+                //perform rotation to the left
                 root = this.rotateRH(root);
             }
-           /* if(root.balance <-1){
+            if(root.balance <-1 && node.value < root.right.value){
                 root =  this.rotateRL(root);
-            }*/
+            }
         
         
         return root;
@@ -144,6 +146,23 @@ class AVLTree{
     getRoot(){
         return this.base;
     }
+    find(node,key){
+        if(node == null){return}
+        if(node.value == key){
+            console.log("Je to v "+node)
+            return node;
+        }
+        else if(key<node.value){
+            this.find(node.left,key);
+        }
+        else if(key>node.value){
+            this.find(node.right,key);
+        }
+        else{
+            return `Kľúč sa tu nenachádza :/`;
+        }
+
+    }
     
 
 
@@ -151,9 +170,7 @@ class AVLTree{
 }
 console.log("hello world");
 const tree = new AVLTree();
-tree.insert(1);
-tree.insert(2);
-tree.insert(3);
-tree.insert(4);
-console.log(tree.base);
+for(let i = 0;i<100;i++){
+    tree.insert(i+1);
+}
 tree.inorder(tree.base);
