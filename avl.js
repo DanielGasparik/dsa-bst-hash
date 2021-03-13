@@ -182,7 +182,7 @@ class AVLTree{
      
 }
 const tree = new AVLTree();
-for(let i = 0;i<1000;i++){
+for(let i = 0;i<3;i++){
     tree.insert(i+1);
 }
 tree.inorder(tree.getRoot());
