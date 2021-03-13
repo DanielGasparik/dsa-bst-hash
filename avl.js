@@ -42,12 +42,12 @@ class AVLTree{
             
         }
         
-        console.log("som v node "+root.value);
+        //console.log("som v node "+root.value);
         root.height = this.getHeight(root);
-        console.log("height "+root.height);
+        //console.log("height "+root.height);
         //console.log("Som v node"+root.value+" s vyskou "+root.height+"node vpravo je "+root.right===null?"null":root.right.value+"node vlavo je" +(root.left===null?"null":root.left.value)+"\n");
         root.balance = this.balance(root);
-        console.log("balance "+root.balance);
+        //console.log("balance "+root.balance);
           
             if(root.balance>1&& node.value<root.left.value){
                 //perform rotation to the right
@@ -76,11 +76,11 @@ class AVLTree{
         let node = new AVLNode(value);
 
         if(this.base === null){
-            console.log("Insertujem for the first time "+node.value)
+            //console.log("Insertujem for the first time "+node.value)
            this.base = node;     
         }
         else{
-            console.log("Insertujem "+node.value)
+            //console.log("Insertujem "+node.value)
            this.base = this.insertN(this.base,node);
         }
                   
@@ -146,21 +146,37 @@ class AVLTree{
     getRoot(){
         return this.base;
     }
-    find(node,key){
-        if(node == null){return}
+    find(key){
+        let a = this.findHelper(this.base,key);
+            if(a==null){
+                console.log("Nenašiel som daný prvok");
+                return null;
+            }
+            else{
+                return a;
+            }
+       
+    }
+    findHelper(node,key){
+        if(node == null){return null;}
         if(node.value == key){
-            console.log("Je to v "+node)
+            
+            console.log(`Našiel som hladany key ${key} v node ${node.value}`);
             return node;
+            
         }
         else if(key<node.value){
-            this.find(node.left,key);
+            node = this.findHelper(node.left,key);
         }
         else if(key>node.value){
-            this.find(node.right,key);
+            node = this.findHelper(node.right,key);
         }
-        else{
-            return `Kľúč sa tu nenachádza :/`;
+        else {
+            node =  null;
         }
+        
+           
+        return node;
 
     }
     
@@ -168,9 +184,8 @@ class AVLTree{
 
     
 }
-console.log("hello world");
 const tree = new AVLTree();
-for(let i = 0;i<100;i++){
-    tree.insert(i+1);
-}
-tree.inorder(tree.base);
+
+tree.insert(20);
+console.log(tree.find(20));
+//tree.inorder(tree.base);
