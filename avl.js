@@ -179,13 +179,11 @@ class AVLTree{
         return node;
 
     }
-    
-
-
-    
+     
 }
 const tree = new AVLTree();
-
-tree.insert(20);
-console.log(tree.find(20));
-//tree.inorder(tree.base);
+for(let i = 0;i<1000;i++){
+    tree.insert(i+1);
+}
+tree.inorder(tree.getRoot());
+console.log(tree.find(2));
