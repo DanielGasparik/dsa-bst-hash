@@ -5,6 +5,7 @@ class AVLNode{
         this.right = null;
         this.left = null;
         this.height = 0;
+        this.balance = 0;
     }
 }
 
@@ -14,12 +15,73 @@ class AVLTree{
     
     }
     getHeight(n){ 
-        if(n==null){return -1;}
+        if(n==null || typeof n == "undefined"){return -1;}
         return Math.max(this.getHeight(n.left),this.getHeight(n.right))+1;
     }
     balance(n){
-        if( n == null){return 0;}
-        return this.getHeight(n.left)-this.getHeight(n.right);
+        if(n.left == null && n.right == null){return 0;}
+        return (this.getHeight(n.left) - this.getHeight(n.right));
+
+    }
+    
+    insertN(root,node){
+        if(root == null){
+            return node;
+            
+        }
+        else if(node.value < root.value){
+            //klasicka rekurzia na najdenie mostleft wanted node kde mame insertnut nas node
+            //console.log("vnaram sa dolava");
+            root.left = this.insertN(root.left,node);
+            
+            
+        }
+        else if(node.value > root.value){
+            //console.log("vnaram sa doprava");
+            root.right = this.insertN(root.right,node);
+            
+        }
+        
+        console.log("som v node "+root.value);
+        root.height = this.getHeight(root);
+        console.log("height "+root.height);
+        //console.log("Som v node"+root.value+" s vyskou "+root.height+"node vpravo je "+root.right===null?"null":root.right.value+"node vlavo je" +(root.left===null?"null":root.left.value)+"\n");
+        root.balance = this.balance(root);
+        console.log("balance "+root.balance);
+          
+            if(root.balance>1){
+                root =  this.rotateLH(root);
+            }
+           // if(root.balance >1){
+           //     root =  this.rotateLR(root);
+           // }
+            if(root.balance<-1){
+                root = this.rotateRH(root);
+            }
+           /* if(root.balance <-1){
+                root =  this.rotateRL(root);
+            }*/
+        
+        
+        return root;
+        
+        
+    }
+    height_util(node){
+        return (node == null?0:node.height);
+    }
+    insert(value){
+        let node = new AVLNode(value);
+
+        if(this.base === null){
+            console.log("Insertujem for the first time "+node.value)
+           this.base = node;     
+        }
+        else{
+            console.log("Insertujem "+node.value)
+           this.base = this.insertN(this.base,node);
+        }
+                  
 
     }
     //rotate left
@@ -29,6 +91,12 @@ class AVLTree{
         let a = node.right;
         node.right = a.left;
         a.left = node;
+
+        node.height = this.getHeight(node);
+        node.balance = this.balance(node);
+        a.height = this.getHeight(a);
+        a.balance = this.balance(node);
+        
          return a;
     }
     //rotate right
@@ -38,6 +106,11 @@ class AVLTree{
         let a = node.left;
         node.left = a.right;
         a.right = node;
+        
+        node.height = this.getHeight(node);
+        node.balance = this.balance(node);
+        a.height = this.getHeight(a);
+        a.balance = this.balance(a);
 
         return a;
 
@@ -58,58 +131,12 @@ class AVLTree{
         //perform left rotation on the root subtree
         return this.rotateRH(node);
     }
-    insertN(root,node){
-        if(root === null){
-            root = node;
-             
-        }
-        if(node.value < root.value){
-            //klasicka rekurzia na najdenie mostleft wanted node kde mame insertnut nas node
-            root.left = this.insertN(root.left,node);
-            
-            
-        }
-        else if(node.value>root.value){
-            root.right = this.insertN(root.right,node);
-            
-        }
-        else { return root;}
-        
-        root.height = this.getHeight(root);
-        let balance = this.balance(root);
-        if(balance>1&& node.value<root.left.value){
-             return this.rotateLH(root);
-        }
-        if(balance<-1&&node.value>root.right.value){
-            return this.rotateRH(root);
-        }
-        if(balance >1 && node.value>root.left.value){
-            return this.rotateLR(root);
-        }
-        if(balance <-1 && node.value<root.left.value){
-            return this.rotateRL(root);
-        }
-        return root;
-    }
-    insert(value){
-        let node = new AVLNode(value);
-        let root = this.base;
-        if(this.base == null){
-            this.base = node;     
-        }
-        else{
-            this.insertN(root,node);
-        }
-          
-               
-
-    }
     
     inorder(node){
         
         if(node!==null){
             this.inorder(node.left);
-            console.log(node.value);
+            console.log(`value->${node.value},height->${node.height},balance->${node.balance}\n`);
             this.inorder(node.right);
         }
 
@@ -124,7 +151,7 @@ class AVLTree{
 }
 console.log("hello world");
 const tree = new AVLTree();
-tree.insert(3);
 tree.insert(2);
-tree.insert(1);
-console.log(tree.base);
+tree.insert(3);
+tree.insert(4);
+tree.inorder(tree.base);
