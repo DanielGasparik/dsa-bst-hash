@@ -1,14 +1,21 @@
 
 class AVLNode{
-    constructor(value){
-        this.value = value;
+    constructor(obj){
+        this.obj = obj;
+        this.value = this.obj.str;
         this.right = null;
         this.left = null;
         this.height = 0;
         this.balance = 0;
     }
 }
-
+class AVLObj{
+    constructor(str,payload){
+        this.str = str;
+        this.payload = [];
+        this.payload.push(payload);
+    }
+}
 class AVLTree{
     constructor(){
         this.base = null;
@@ -72,8 +79,8 @@ class AVLTree{
     height_util(node){
         return (node == null?0:node.height);
     }
-    insert(value){
-        let node = new AVLNode(value);
+    insert(value,payload){
+        let node = new AVLNode(new AVLObj(value,payload));
 
         if(this.base === null){
             //console.log("Insertujem for the first time "+node.value)
@@ -182,8 +189,8 @@ class AVLTree{
      
 }
 const tree = new AVLTree();
-for(let i = 0;i<3;i++){
-    tree.insert(i+1);
-}
+tree.insert("john",{"cena":5,"sokumamofe":true});
+tree.insert("adam",{"cena":4,"sokumamofe":false});
+tree.insert("justin",{"cena":2,"sokumamofe":true});
 tree.inorder(tree.getRoot());
-console.log(tree.find(2));
+console.log(tree.find("john"));
