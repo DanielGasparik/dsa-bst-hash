@@ -160,9 +160,9 @@ class AVLTree {
         if (a == null) {
             console.log("Nenašiel som daný prvok");
             return null;
-        } else {
-            return a;
-        }
+        } 
+        return a;
+        
 
     }
     findHelper(node, key) {
@@ -192,9 +192,31 @@ const tree = new AVLTree();
 let i = 0;
 let name;
 let payload;
-tree.insert("all", {
+tree.insert("d", {
     s: "d"
 })
+tree.insert("a", {
+    s: "a"
+})
+tree.insert("c", {
+    s: "c"
+})
+tree.insert("b", {
+    s: "b"
+})
+tree.insert("q", {
+    s: "q"
+})
+tree.insert("j", {
+    s: "x"
+})
+tree.insert("f", {
+    s: "d"
+})
+tree.inorder(tree.getRoot());
+console.log(tree.find("c"));
+
+
 console.time("Execution Time");
 fs.createReadStream("test.csv").pipe(csv())
     .on("data", (row) => {
@@ -206,7 +228,8 @@ fs.createReadStream("test.csv").pipe(csv())
 
     }).on("end", () => {
         console.timeEnd("Execution Time");
-        console.log(tree.getRoot());
+        //console.log(tree.getRoot());
         //tree.inorder(tree.getRoot());
+        console.log(tree);
         
     });
