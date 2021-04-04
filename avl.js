@@ -1,5 +1,4 @@
-const csv = require('csv-parser');
-const fs = require("fs");
+
 class AVLNode {
     constructor(obj) {
         this.obj = obj;
@@ -188,6 +187,11 @@ class AVLTree {
     }
 
 }
+module.exports = {
+    AVLTree,AVLNode,AVLObj
+};
+/*
+
 const tree = new AVLTree();
 let i = 0;
 let name;
@@ -213,9 +217,13 @@ tree.insert("j", {
 tree.insert("f", {
     s: "d"
 })
-tree.inorder(tree.getRoot());
-console.log(tree.find("c"));
+tree.insert("Sharon Bingham", {
+    s: "d"
+})
+console.log(tree.find("Sharon Bingham"));
+//tree.inorder(tree.getRoot());
 
+/*
 
 console.time("Execution Time");
 fs.createReadStream("test.csv").pipe(csv())
@@ -233,3 +241,4 @@ fs.createReadStream("test.csv").pipe(csv())
         console.log(tree);
         
     });
+*/
