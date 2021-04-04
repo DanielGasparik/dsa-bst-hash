@@ -1,8 +1,4 @@
-/*let array = new Array(20);
-console.log(array.length);
-let array_misc = new Array(array.length * 2);
-array = [...array, ...array_misc]; //zväčšovanie
-*/
+
 
 const hash = (key, size) => {
 
@@ -11,8 +7,6 @@ const hash = (key, size) => {
     return hash % size;
 
 }
-const fs = require('fs');
-
 class HashTable {
     constructor() {
 
@@ -36,10 +30,10 @@ class HashTable {
 
     }
     search(string) {
-        
+
         let idx = hash(string, this.size);
         if (idx != undefined) {
-            return this.buckets[idx].find((obj)=>{
+            return this.buckets[idx].find((obj) => {
                 return obj.meno === string;
             });
         }
@@ -48,15 +42,15 @@ class HashTable {
 
     }
     rehash() {
-
-        for (let i = 0; i < this.size * 2; i++) {
+        const size2 = this.size * 2;
+        for (let i = 0; i < size2; i++) {
             this.buckets2.push([]);
         }
         for (let bucket of this.buckets) {
             if (bucket.length != 0) {
                 bucket.forEach(item => {
-                    this.buckets2[hash(item.meno, this.size * 2)].push(item);
-                    //console.log(this.buckets2[hash(item.str,this.size)]);
+                    this.buckets2[hash(item.meno, size2)].push(item);
+
                 })
             }
 
@@ -69,20 +63,5 @@ class HashTable {
     }
 }
 
-let ht = new HashTable();
+module.exports = {hash,HashTable};
 
-
-let data = fs.readFileSync("ExportJson-4.json", "utf8");
-let data_inner = JSON.parse(data);
-
-for (let i of data_inner.items) {
-    ht.insert(i);
-}
-
-const start = Date.now()
-console.log(ht.search("Anthony Wilson"));
-const result = Date.now()-start;
-
-console.log(`This took me ${result}ms. `)
-
-//console.log(ht.search("a14x"));
