@@ -1,16 +1,5 @@
 
 ///TEST FILE;
-/*
-let ht = new HashTable();
-
-
-
-const start = Date.now()
-
-
-
-console.log(ht.search("Anthony Wilson"));
-*/
 
 const fs = require('fs');
 const RedBlackTree = require('functional-red-black-tree')
