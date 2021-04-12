@@ -52,7 +52,7 @@ class AVLTree {
         }
 
         //console.log("som v node "+root.value);
-        root.height = this.getHeight(root);
+        //root.height = this.getHeight(root);
         //console.log("height "+root.height);
         //console.log("Som v node"+root.value+" s vyskou "+root.height+"node vpravo je "+root.right===null?"null":root.right.value+"node vlavo je" +(root.left===null?"null":root.left.value)+"\n");
         root.balance = this.balance(root);
@@ -62,18 +62,18 @@ class AVLTree {
             //perform rotation to the right
             root = this.rotateLH(root);
         }
-        if (root.balance > 1 && node.value > root.left.value) {
+        else if (root.balance > 1 && node.value > root.left.value) {
             root = this.rotateLR(root);
         }
-        if (root.balance < -1 && node.value > root.right.value) {
+        else if (root.balance < -1 && node.value > root.right.value) {
             //perform rotation to the left
-            root = this.rotateRH(root);
+            root =  this.rotateRH(root);
         }
-        if (root.balance < -1 && node.value < root.right.value) {
-            root = this.rotateRL(root);
+        else if (root.balance < -1 && node.value < root.right.value) {
+            root =  this.rotateRL(root);
         }
 
-
+        
         return root;
 
 
@@ -102,10 +102,10 @@ class AVLTree {
         node.right = a.left;
         a.left = node;
 
-        node.height = this.getHeight(node);
-        node.balance = this.balance(node);
-        a.height = this.getHeight(a);
-        a.balance = this.balance(node);
+        //node.height = this.getHeight(node);
+        //node.balance = this.balance(node);
+        //a.height = this.getHeight(a);
+        //a.balance = this.balance(a);
 
         return a;
     }
@@ -116,17 +116,18 @@ class AVLTree {
         let a = node.left;
         node.left = a.right;
         a.right = node;
-
-        node.height = this.getHeight(node);
-        node.balance = this.balance(node);
-        a.height = this.getHeight(a);
-        a.balance = this.balance(a);
+        
+        //Update Heights and balances
+        //node.height = this.getHeight(node);
+        //node.balance = this.balance(node);
+        //a.height = this.getHeight(a);
+        //a.balance = this.balance(a);
 
         return a;
 
     }
 
-
+    //left-right rotation
     rotateLR(node) {
         //perform left rotation on the left subtree
         node.left = this.rotateRH(node.left);
@@ -134,7 +135,7 @@ class AVLTree {
         return this.rotateLH(node);
 
     }
-
+    //right-left rotation
     rotateRL(node) {
         //perform right rotation on the right subtree
         node.right = this.rotateLH(node.right);
@@ -177,10 +178,7 @@ class AVLTree {
             node = this.findHelper(node.left, key);
         } else if (key > node.value) {
             node = this.findHelper(node.right, key);
-        } else {
-            node = null;
-        }
-
+        } 
 
         return node;
 

@@ -28,9 +28,13 @@ let data_inner_hash = JSON.parse(data_hash);
 //Testing AVL
 console.log("Testing my AVL tree implementation on 20k {name:\"name\",age:49} objects");
 const avl_start = Date.now();
-console.log("Inserting.....(This might take approx 30-40s :( )")
+console.log("Inserting.....(This might take approx 15-30s :( )")
+let j = 0;
 for (let i of data_inner_avl.items) {
     avl.insert(i.meno,i);
+   /* if(j++%100==0){
+        console.log(j);
+    }*/
 }
 const avl_result = Date.now() - avl_start;
 console.log(`This took me ${avl_result}ms. \n`);
@@ -47,7 +51,7 @@ console.log("\n\n")
 console.log("Testing imported RBT tree implementation on 20k {name:\"name\",age:49} objects");
 const rbt_insert_start = Date.now();
 console.log("Inserting.....")
-for (let i of data_inner_hash.items) {
+for (let i of data_inner_avl.items) {
     rbtree = rbtree.insert(i.meno,i);
 }
 const rbt_insert_result = Date.now()-rbt_insert_start;

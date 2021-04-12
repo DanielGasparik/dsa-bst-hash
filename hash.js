@@ -34,7 +34,7 @@ class HashTable {
         let idx = hash(string, this.size);
         if (idx != undefined) {
             return this.buckets[idx].find((obj) => {
-                return obj.meno === string;
+                return obj.meno == string;
             });
         }
 
